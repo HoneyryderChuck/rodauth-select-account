@@ -111,8 +111,15 @@ class SelectAccountTest < Minitest::Test
 
   def login(opts={})
     visit(opts[:path]||'/login') unless opts[:visit] == false
-    fill_in 'Login', :with=>opts[:login]||'foo@example.com'
-    fill_in 'Password', :with=>opts[:pass]||'0123456789'
+    fill_in 'Login', :with=>opts[:login] || 'foo@example.com'
+    fill_in 'Password', :with=>opts[:pass] || '0123456789'
+    click_button 'Login'
+  end
+
+  def add_account(opts={})
+    visit(opts[:path]||"/add-account") unless opts[:visit] == false
+    fill_in 'Login', :with=>opts[:login] || 'foo2@example.com'
+    fill_in 'Password', :with=>opts[:pass] || '0123456789'
     click_button 'Login'
   end
 
@@ -123,8 +130,13 @@ class SelectAccountTest < Minitest::Test
 
   def around
     DB.transaction(:rollback=>:always, :savepoint=>true, :auto_savepoint=>true) do
+      # 1 user
       hash = BCrypt::Password.create("0123456789", cost: BCrypt::Engine::MIN_COST)
       DB[:accounts].insert(email: "foo@example.com", status_id: 2, ph: hash)
+
+      # 2 user
+      hash = BCrypt::Password.create("0123456789", cost: BCrypt::Engine::MIN_COST)
+      DB[:accounts].insert(email: "foo2@example.com", status_id: 2, ph: hash)
       super
     end
   end

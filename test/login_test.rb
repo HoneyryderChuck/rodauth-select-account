@@ -32,10 +32,7 @@ class RodauthSelectAccountLoginTest < SelectAccountTest
     assert page.find('#notice_flash').text == 'You have been logged in'
     assert page.html.include?("Logged In")
 
-    visit '/logout'
-    assert page.title == 'Logout'
-
-    click_button 'Logout'
+    logout
     assert page.find('#notice_flash').text == 'You have been logged out'
     assert page.current_path == '/login'
   end
