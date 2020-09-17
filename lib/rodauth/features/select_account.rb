@@ -4,23 +4,23 @@ module Rodauth
   Feature.define(:select_account) do
     depends :login
 
-    notice_flash 'You have added a new account', 'add_account'
-    error_flash 'There was an error adding the new account', 'add_account'
-    view 'add-account', 'Add Account', 'add_account'
-    before 'add_account'
-    after 'add_account'
-    button 'Add Account', 'add_account'
-    redirect 'add_account'
+    notice_flash "You have added a new account", "add_account"
+    error_flash "There was an error adding the new account", "add_account"
+    view "add-account", "Add Account", "add_account"
+    before "add_account"
+    after "add_account"
+    button "Add Account", "add_account"
+    redirect "add_account"
 
     private
 
     def session
       core_session = super
-      account_value = core_session['selected_account_value']
+      account_value = core_session["selected_account_value"]
 
       return core_session unless account_value
 
-      (core_session['accounts'] ||= {})[account_value.to_s] ||= {}
+      (core_session["accounts"] ||= {})[account_value.to_s] ||= {}
     end
 
     def update_session
@@ -32,7 +32,7 @@ module Rodauth
       return super unless key == session_key
 
       full_scope = method(:session).super_method.call
-      full_scope['selected_account_value'] = value
+      full_scope["selected_account_value"] = value
       super
     end
 
@@ -79,7 +79,7 @@ module Rodauth
 
           transaction do
             before_add_account
-            login_session('password')
+            login_session("password")
             after_add_account
           end
           set_notice_flash add_account_notice_flash

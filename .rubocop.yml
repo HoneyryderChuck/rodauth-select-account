@@ -37,3 +37,12 @@ Style/Documentation:
 Metrics/BlockLength:
   Enabled: false
 
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+

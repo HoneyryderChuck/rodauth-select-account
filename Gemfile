@@ -10,10 +10,9 @@ gem "bcrypt"
 gem "rack_csrf"
 
 gem "roda"
-gem "tilt"
-gem "sequel"
 gem "rodauth"
-
+gem "sequel"
+gem "tilt"
 
 # Tests/Debug
 gem "capybara"
@@ -21,8 +20,8 @@ gem "minitest", "~> 5.0"
 gem "minitest-hooks"
 gem "webmock"
 
-gem "rubocop"
 gem "pry"
+gem "rubocop"
 
 platform :mri do
   gem "pry-byebug"
