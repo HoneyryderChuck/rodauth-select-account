@@ -19,8 +19,8 @@ class RodauthSelectAccountAddAccountTest < SelectAccountTest
     assert page.find('#notice_flash').text == 'You have been logged in'
     assert page.html.include?("foo@example.com is logged in")
 
-    add_account(login: "foo2@example.com")
-    assert page.find('#notice_flash').text == 'You have been logged in'
+    add_account(login: "foo2@example.com", pass: "1234567890")
+    assert page.find('#notice_flash').text == 'You have added a new account'
     assert page.html.include?("foo2@example.com is logged in")
 
     logout

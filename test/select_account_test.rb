@@ -15,10 +15,12 @@ class RodauthSelectAccountSelectAccountTest < SelectAccountTest
     end
 
     login
-
     assert page.html.include?("foo@example.com is logged in")
 
-    add_account(login: 'foo2@example.com')
+    select_account(login: 'foo@example.com')
+    assert page.current_path == "/login"
+
+    add_account(login: 'foo2@example.com', pass: "1234567890")
     assert page.find('#notice_flash').text == 'You have been logged in'
     assert page.html.include?("foo2@example.com is logged in")
 
@@ -26,7 +28,7 @@ class RodauthSelectAccountSelectAccountTest < SelectAccountTest
     # now let's select accounts
     select_account(login: 'foo@example.com')
     assert page.html.include?("foo@example.com is logged in")
-    select_account(login: 'foo2@example.com')
+    select_account(login: 'foo2@example.com', pass: "1234567890")
     assert page.html.include?("foo2@example.com is logged in")
 
     logout

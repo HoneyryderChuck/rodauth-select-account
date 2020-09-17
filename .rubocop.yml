@@ -34,3 +34,6 @@ Naming/FileName:
 Style/Documentation:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+

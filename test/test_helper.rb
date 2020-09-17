@@ -31,7 +31,7 @@ end
 Base = Class.new(Roda)
 Base.opts[:check_dynamic_arity] = Base.opts[:check_arity] = :warn
 Base.plugin :flash
-Base.plugin :render, views: "test/views", :layout_opts=>{:path=>'test/views/layout.str'}
+Base.plugin :render, engine: "str", views: "test/views", :layout_opts=>{:path=>'test/views/layout.str'}
 Base.plugin(:not_found){raise "path #{request.path_info} not found"}
 Base.plugin :common_logger if ENV.key?("RODAUTH_DEBUG")
 
@@ -120,7 +120,7 @@ class SelectAccountTest < Minitest::Test
     visit(opts[:path]||"/add-account") unless opts[:visit] == false
     fill_in 'Login', :with=>opts[:login] || 'foo2@example.com'
     fill_in 'Password', :with=>opts[:pass] || '0123456789'
-    click_button 'Login'
+    click_button 'Add Account'
   end
 
   def logout
@@ -135,7 +135,7 @@ class SelectAccountTest < Minitest::Test
       DB[:accounts].insert(email: "foo@example.com", status_id: 2, ph: hash)
 
       # 2 user
-      hash = BCrypt::Password.create("0123456789", cost: BCrypt::Engine::MIN_COST)
+      hash = BCrypt::Password.create("1234567890", cost: BCrypt::Engine::MIN_COST)
       DB[:accounts].insert(email: "foo2@example.com", status_id: 2, ph: hash)
       super
     end
