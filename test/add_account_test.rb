@@ -3,7 +3,7 @@
 require_relative "test_helper"
 
 class RodauthSelectAccountAddAccountTest < SelectAccountTest
-  def test_select_account_login_logout
+  def test_select_account_add_account
     rodauth do
       enable :select_account, :login, :logout
     end

@@ -134,6 +134,7 @@ class SelectAccountTest < Minitest::Test
       # 2 user
       hash = BCrypt::Password.create("1234567890", cost: BCrypt::Engine::MIN_COST)
       DB[:accounts].insert(email: "foo2@example.com", status_id: 2, ph: hash)
+
       super
     end
   end

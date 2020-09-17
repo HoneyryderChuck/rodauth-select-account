@@ -4,6 +4,7 @@ module Rodauth
   Feature.define(:select_account) do
     depends :login
 
+    # add-account
     notice_flash "You have added a new account", "add_account"
     error_flash "There was an error adding the new account", "add_account"
     view "add-account", "Add Account", "add_account"
@@ -11,6 +12,27 @@ module Rodauth
     after "add_account"
     button "Add Account", "add_account"
     redirect "add_account"
+
+    # select-account
+    notice_flash "You have selected an account"
+    error_flash "There was an error selecting the account"
+    before
+    after
+    redirect
+    
+    auth_value_method :no_account_error_status, 409
+    translatable_method :no_account_message, "could not select account"
+
+
+    def accounts_in_session
+      @accounts_in_session ||= begin
+        full_scope = method(:session).super_method.call
+        account_ids = full_scope["accounts"].values.map{|sess| sess[session_key] }
+        ds = account_ds(account_ids)
+        ds = ds.where(account_session_status_filter) unless skip_status_checks?
+        ds
+      end
+    end
 
     private
 
@@ -34,6 +56,36 @@ module Rodauth
       full_scope = method(:session).super_method.call
       full_scope["selected_account_value"] = value
       super
+    end
+
+    route(:select_account) do |r|
+      require_account
+      before_select_account_route
+
+      r.post do
+        catch_error do
+          @account = accounts_in_session.where(login_column => param(login_param)).first
+
+          unless @account
+            throw_error_status(no_account_error_status, login_param, no_account_message)
+          end
+
+          transaction do
+            before_select_account
+
+            # if user is not logged in, pre-fill /login form with selected account
+            # if user is logged in, but he has no acknowledged session, redirect to /add-account
+            # if user is logged in and has a valid session, update session
+            update_session
+            after_select_account
+          end
+          set_notice_flash select_account_notice_flash
+          redirect(select_account_redirect)
+        end
+
+        set_error_flash select_account_error_flash
+        redirect(default_redirect)
+      end
     end
 
     # /add-account
