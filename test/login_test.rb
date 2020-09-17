@@ -9,6 +9,7 @@ class RodauthSelectAccountLoginTest < SelectAccountTest
     end
     roda do |r|
       r.rodauth
+
       next unless rodauth.logged_in?
       r.root{view :content=>"Logged In"}
     end
