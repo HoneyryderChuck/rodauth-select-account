@@ -31,9 +31,6 @@ Naming/FileName:
     - Gemfile
     - lib/rodauth/select-account.rb
     
-Style/Documentation:
-  Enabled: false
-
 Metrics/BlockLength:
   Enabled: false
 
@@ -43,6 +40,14 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
+Style/SafeNavigation:
+  Enabled: false

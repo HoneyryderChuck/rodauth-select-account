@@ -30,7 +30,7 @@ Base = Class.new(Roda)
 Base.opts[:check_dynamic_arity] = Base.opts[:check_arity] = :warn
 Base.plugin :flash
 Base.plugin :render, engine: "str", views: "test/views", layout_opts: { path: "test/views/layout.str" }
-Base.plugin(:not_found) { raise "path #{request.path_info} not found"}
+Base.plugin(:not_found) { raise "path #{request.path_info} not found" }
 Base.plugin :common_logger if ENV.key?("RODAUTH_DEBUG")
 
 require "roda/session_middleware"
@@ -114,7 +114,7 @@ class SelectAccountTest < Minitest::Test
   end
 
   def add_account(opts = {})
-    visit(opts[:path] || "/add-account") unless opts[:visit] == false
+    click_link("Add Account") unless opts[:visit] == false
     fill_in "Login", with: opts[:login] || "foo2@example.com"
     fill_in "Password", with: opts[:pass] || "0123456789"
     click_button "Add Account"
