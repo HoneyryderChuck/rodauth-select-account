@@ -2,6 +2,14 @@
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
+ENV["DATABASE_URL"] ||= "sqlite::memory:"
+
+if ENV.key?("CI")
+  require "simplecov"
+  SimpleCov.command_name "#{RUBY_ENGINE}-#{RUBY_VERSION}"
+  SimpleCov.coverage_dir "coverage/#{RUBY_ENGINE}-#{RUBY_VERSION}"
+end
+
 require "fileutils"
 require "logger"
 require "securerandom"
@@ -16,7 +24,6 @@ require "rodauth/select-account"
 require "rodauth/version"
 require "bcrypt"
 
-ENV["DATABASE_URL"] ||= "sqlite::memory:"
 DB = begin
   db = Sequel.connect(ENV["DATABASE_URL"])
   db.loggers << Logger.new($stderr) if ENV.key?("RODAUTH_DEBUG")

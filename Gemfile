@@ -26,8 +26,12 @@ gem "rubocop"
 platform :mri do
   gem "pry-byebug"
   gem "sqlite3"
+  # Docs/Website
+  gem "hanna-nouveau", require: false if RUBY_VERSION > "2.5"
 end
 
 platform :jruby do
   gem "jdbc-sqlite3"
 end
+
+gem "simplecov", "~> 0.19.0"
