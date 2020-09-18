@@ -34,4 +34,4 @@ platform :jruby do
   gem "jdbc-sqlite3"
 end
 
-gem "simplecov", "~> 0.19.0"
+gem "simplecov"
