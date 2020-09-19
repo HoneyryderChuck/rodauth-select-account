@@ -50,9 +50,57 @@ route do |r|
 end
 ```
 
+## Add Account
+
+The URLs provided are:
+
+* `GET /add-account`: In renders a form, similar to the login form, where you'll input the login and password of the account you want to add.
+* `POST /add-account`: When the aforementioned form gets submitted; This will both add the new account to the session, and use it as the current account.
+
+## Select Account
+
+The URLs provided are:
+
+* `POST /select-account`: Submitted with a login to switch the current account to; If you're not logged in, It'll ask you to log in with the chosen account; If logged in, but the account hasn't been authenticated yet, it'll ask you to add the account to the session; otherwise, it'll switch the current account to the selected one.
+
+
+# Options
+
+You'll be able to tweak the following options
+
+* `selected_account_key` (default: `:selected_account_id`) key from session where the current account is stored;
+* `accounts_key` (default: `:accounts`) key from session where all authenticated accounts are stored;
+* `accounts_cookie_key` (default: `"_accounts"`) key from cookies where all previously used accounts are stored;
+* `accounts_cookie_options` (default: `{}.freeze`) accounts cookie options;
+* `accounts_cookie_interval` (default: `14 + 60 * 60 * 24`, 14 days): for how much time the previously used accounts in the user agent are going to be remembered;
+* `no_account_error_status`: (default: 409) the status code used when no account is found for an existing account in session (for example, if an account has been closed or deleted);
+* `no_account_message`: flash error message when no account is found;
+
+The following options and methods are also available to override, and names should be self-explanatory according to rodauth conventions:
+
+* `add_account_notice_flash`
+* `add_account_error_flash`
+* `add_account_view`
+* `before_add_account_route`
+* `before_add_account`
+* `after_add_account`
+* `add_account_button`
+* `add_account_redirect`
+* `select_account_notice_flash`
+* `select_account_error_flash`
+* `before_select_account_route`
+* `before_select_account`
+* `after_select_account`
+* `select_account_redirect`
+* `add_account_path`
+* `add_account_url`
+* `select_account_path`
+* `select_account_url`
+
+
 ## Ruby support policy
 
-The minimum Ruby version required to run `rodauth-select-account` is 2.3 . Besides that, it should support all rubies that rodauth and roda support, including JRuby and (potentially, I don't know yet) truffleruby.
+The minimum Ruby version required to run `rodauth-select-account` is 2.4 . Besides that, it should support all rubies that rodauth and roda support, including JRuby and (potentially, I don't know yet) truffleruby.
 
 ## Development
 
