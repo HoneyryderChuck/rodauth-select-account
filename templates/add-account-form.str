@@ -1,0 +1,6 @@
+<form method="post" class="rodauth" role="form" id="add-account-form">
+  #{rodauth.csrf_tag}
+  #{rodauth.skip_login_field_on_login? ? rodauth.render('login-display') : rodauth.render('login-field')}
+  #{rodauth.render('password-field') unless rodauth.skip_password_field_on_login?}
+  #{rodauth.button(rodauth.add_account_button)}
+</form>

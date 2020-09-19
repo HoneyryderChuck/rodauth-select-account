@@ -97,6 +97,9 @@ The following options and methods are also available to override, and names shou
 * `select_account_path`
 * `select_account_url`
 
+These are also available methods:
+
+* `accounts_in_session`: returns all the available accounts in session
 
 ## Ruby support policy
 

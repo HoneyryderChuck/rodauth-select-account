@@ -1,0 +1,146 @@
+body {
+  background-color: #f8f9fa;
+}
+
+nav {
+  .btn {
+    margin-left: 5px;
+  }
+}
+
+.navbar-form, .dropdown {
+  display: inline;
+}
+
+.main {
+  max-width: 700px;
+};
+
+.text-center {
+  text-align: center !important;
+}
+
+.error {
+  border: 1px #a00 solid;
+}
+
+span.error_message {
+  color: #a00;
+  background-color: #ffffe0;
+  border-color: 1px solid #eeeed0;
+  padding: 5px 2px;
+  display: inline-block;
+
+  &:before {
+    content: "(!) "
+  }
+}
+
+input.rodauth_hidden {
+  display: none;
+}
+
+#login-form {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  padding: 2.25rem 1.25rem;
+  margin-bottom: 1.25rem;
+
+  input[type="submit"] {
+
+  } 
+}
+
+.rodauth-login-form-footer-links-heading {
+  font-size: 1rem;
+}
+
+.rodauth-login-footer-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.rodauth-login-form-footer-links-heading,
+.rodauth-login-footer-links {
+  padding-left: 1.25rem;
+}
+
+.btn-padded {
+  padding-left: 3.25rem;
+  padding-right: 3.25rem;
+}
+
+.accounts-menu {
+  .dropdown-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.search-box {
+  background: #fff;
+  display: flex;
+  border: 1px solid #dfe1e5;
+  box-shadow: none;
+  border-radius: 24px;
+  z-index: 3;
+  height: 44px;
+  margin: 0 auto;
+  width: 482px;
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  padding-right: 13px;
+  margin-top: -5px;
+  margin-left: 10px;
+}
+
+.search-input {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+
+  input {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    margin-top: 0px;
+    padding: 0;
+    color: rgba(0,0,0,.87);
+    word-wrap: break-word;
+    outline: none;
+    display: flex;
+    flex: 100%;
+    tap-highlight-color: transparent;
+    margin-top: -37px;
+    height: 34px;
+    font-size: 16px;
+  }
+}
+
+.keyboard-icon {
+  display: flex;
+  flex: 0 0 auto;
+  margin-top: -5px;
+  align-items: stretch;
+  flex-direction: row;
+
+  .keyboard-box {
+    flex: 1 0 auto;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    outline: none;
+    padding: 0 8px;
+    width: 24px;
+    line-height: 44px;
+  }
+}
