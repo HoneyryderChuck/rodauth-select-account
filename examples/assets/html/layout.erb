@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Roda Oauth Demo - <%= @page_title %></title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous"></link>
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <%= assets(:css) %>
+  </head>
+  <body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Goggles</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <% if rodauth.logged_in? %>
+          <a class="btn btn-outline-primary" href="/add-account">Add Account</a>
+          <form action="/logout" class="navbar-form pull-right" method="post">
+            <%= csrf_tag("/logout") %>
+            <input class="btn btn-outline-primary" type="submit" value="Logout" />
+          </form>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+              </svg>
+              <%= current_account[:email].split("@").first %>
+            </button>
+            <div class="accounts-menu dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+              <% rodauth.accounts_in_session.each do |account| %>
+                <% next if account[:id] == current_account[:id] %>
+                <form action="<%= rodauth.select_account_path %>" class="navbar-form pull-right" method="post">
+                  <%= csrf_tag(rodauth.select_account_path) %>
+                  <input type="hidden" name="<%= rodauth.login_param %>" value="<%= account[:email] %>" />
+                  <button type="submit" class="dropdown-item">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                    </svg>
+                    Switch to <%= account[:email].split("@").first %>
+                  </button>
+                </form>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <a class="btn btn-outline-primary" href="/login">Sign In</a>
+          <a class="btn btn-outline-primary" href="/create-account">Sign Up</a>
+        <% end %>
+      </nav>
+    </div>
+
+    <div class="container">
+      <% if flash['notice'] %>
+        <div class="alert alert-success"><p><%= flash['notice'] %></p></div>
+      <% end %>
+      <% if flash['error'] %>
+        <div class="alert alert-danger"><p><%= flash['error'] %></p></div>
+      <% end %>
+      <div class="main px-3 py-3 pt-md-5 pb-md-4 mx-auto">
+        <h1 class="display-4"><%= @page_title %></h1>
+        <%= yield %>
+      </div>
+      <footer class="lead">This demo site is part of the Rodauth Select Account repository, so if you want to know how it works, you can <a href="https://gitlab.com/honeyryderchuck/rodauth-select-account/tree/master/examples/">review the source</a>.</footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>

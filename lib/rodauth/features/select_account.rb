@@ -122,6 +122,13 @@ module Rodauth
       ::Rack::Utils.set_cookie_header!(response.headers, accounts_cookie_key, opts)
     end
 
+    def template_path(page)
+      path = File.join(File.dirname(__FILE__), "../../../templates", "#{page}.str")
+      return super unless File.exist?(path)
+
+      path
+    end
+
     route(:select_account) do |r|
       before_select_account_route
 
