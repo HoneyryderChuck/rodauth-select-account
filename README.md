@@ -50,6 +50,18 @@ route do |r|
 end
 ```
 
+## Example
+
+There's an example application in the project [under the examples directory](/examples). You can clone de project, install the dependencies and then you can run it with:
+
+`> bundle exec ruby examples/goggles.rb`
+
+Then you can open your browser under `http://localhost:9292`.
+
+Here's a screenshot:
+
+![rodauth-select-account example](/examples/select-account-example.png)
+
 ## Add Account
 
 The URLs provided are:
