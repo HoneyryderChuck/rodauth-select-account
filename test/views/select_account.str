@@ -1,0 +1,16 @@
+<h2>Select an account</h2>
+<ul>
+#{
+  rodauth.accounts_in_session.map do |account|
+    <<-OUT
+      <li>
+        <form method="post" action="#{rodauth.select_account_path}" class="rodauth" role="form" id="select-account-form">
+          #{rodauth.csrf_tag(rodauth.select_account_path)}
+          <input type="hidden" name="#{rodauth.login_param}" value="#{account[:email]}" />
+          <input type="submit" value="#{account[:email]}" />
+        </form>
+      </li>
+    OUT
+  end.join
+}
+</ul>

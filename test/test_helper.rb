@@ -2,6 +2,11 @@
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
+if ENV.key?("CI")
+  require "simplecov"
+  SimpleCov.command_name "#{RUBY_ENGINE}-#{RUBY_VERSION}"
+  SimpleCov.coverage_dir "coverage/#{RUBY_ENGINE}-#{RUBY_VERSION}"
+end
 
 require "fileutils"
 require "logger"
@@ -17,9 +22,14 @@ require "rodauth/select-account"
 require "rodauth/version"
 require "bcrypt"
 
-ENV["DATABASE_URL"] ||= "sqlite::memory:"
 DB = begin
-  db = Sequel.connect(ENV["DATABASE_URL"])
+  db = if ENV.key?("DATABASE_URL")
+         Sequel.connect(ENV["DATABASE_URL"])
+       elsif RUBY_ENGINE == "jruby"
+         Sequel.jdbc("sqlite:memory:")
+       else
+         Sequel.sqlite
+       end
   db.loggers << Logger.new($stderr) if ENV.key?("RODAUTH_DEBUG")
   Sequel.extension :migration
   require "rodauth/migrations"
@@ -27,18 +37,16 @@ DB = begin
   db
 end
 
-
 Base = Class.new(Roda)
 Base.opts[:check_dynamic_arity] = Base.opts[:check_arity] = :warn
 Base.plugin :flash
-Base.plugin :render, views: "test/views", :layout_opts=>{:path=>'test/views/layout.str'}
-Base.plugin(:not_found){raise "path #{request.path_info} not found"}
+Base.plugin :render, engine: "str", views: "test/views", layout_opts: { path: "test/views/layout.str" }
+Base.plugin(:not_found) { raise "path #{request.path_info} not found" }
 Base.plugin :common_logger if ENV.key?("RODAUTH_DEBUG")
 
 require "roda/session_middleware"
 Base.opts[:sessions_convert_symbols] = true
 Base.use RodaSessionMiddleware, secret: SecureRandom.random_bytes(64), key: "rack.session"
-
 
 class Base
   attr_writer :title
@@ -47,16 +55,16 @@ end
 class SelectAccountTest < Minitest::Test
   include Capybara::DSL
   include Minitest::Hooks
-  
-  case ENV['RODA_ROUTE_CSRF']
-  when 'no'
+
+  case ENV["RODA_ROUTE_CSRF"]
+  when "no"
     USE_ROUTE_CSRF = false
-  when 'no-specific'
+  when "no-specific"
     USE_ROUTE_CSRF = true
-    ROUTE_CSRF_OPTS = {:require_request_specific_tokens=>false}
+    ROUTE_CSRF_OPTS = { require_request_specific_tokens: false }.freeze
   else
     USE_ROUTE_CSRF = true
-    ROUTE_CSRF_OPTS = {}
+    ROUTE_CSRF_OPTS = {}.freeze
   end
 
   attr_reader :app
@@ -79,7 +87,7 @@ class SelectAccountTest < Minitest::Test
     opts
   end
 
-  def roda(type=nil, &block)
+  def roda(type = nil, &block)
     app = Class.new(Base)
     app.opts[:unsupported_block_result] = :raise
     app.opts[:unsupported_matcher] = :raise
@@ -109,22 +117,35 @@ class SelectAccountTest < Minitest::Test
     page.driver.browser.rack_mock_session.cookie_jar[key] = value
   end
 
-  def login(opts={})
-    visit(opts[:path]||'/login') unless opts[:visit] == false
-    fill_in 'Login', :with=>opts[:login]||'foo@example.com'
-    fill_in 'Password', :with=>opts[:pass]||'0123456789'
-    click_button 'Login'
+  def login(opts = {})
+    visit(opts[:path] || "/login") unless opts[:visit] == false
+    fill_in "Login", with: opts[:login] || "foo@example.com"
+    fill_in "Password", with: opts[:pass] || "0123456789"
+    click_button "Login"
+  end
+
+  def add_account(opts = {})
+    click_link("Add Account") unless opts[:visit] == false
+    fill_in "Login", with: opts[:login] || "foo2@example.com"
+    fill_in "Password", with: opts[:pass] || "0123456789"
+    click_button "Add Account"
   end
 
   def logout
-    visit '/logout'
-    click_button 'Logout'
+    visit "/logout"
+    click_button "Logout"
   end
 
   def around
-    DB.transaction(:rollback=>:always, :savepoint=>true, :auto_savepoint=>true) do
+    DB.transaction(rollback: :always, savepoint: true, auto_savepoint: true) do
+      # 1 user
       hash = BCrypt::Password.create("0123456789", cost: BCrypt::Engine::MIN_COST)
       DB[:accounts].insert(email: "foo@example.com", status_id: 2, ph: hash)
+
+      # 2 user
+      hash = BCrypt::Password.create("1234567890", cost: BCrypt::Engine::MIN_COST)
+      DB[:accounts].insert(email: "foo2@example.com", status_id: 2, ph: hash)
+
       super
     end
   end
