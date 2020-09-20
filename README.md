@@ -73,8 +73,11 @@ The URLs provided are:
 
 The URLs provided are:
 
+* `GET /select-account`: It renders a page with recently used accounts, to switch to.
 * `POST /select-account`: Submitted with a login to switch the current account to; If you're not logged in, It'll ask you to log in with the chosen account; If logged in, but the account hasn't been authenticated yet, it'll ask you to add the account to the session; otherwise, it'll switch the current account to the selected one.
 
+
+The accounts a user can switch are: accounts the user recently logged into, or added. Seamless switching only happens if the account has been logged in for the current session, otherwise the user will be prompted to log in. When the user logs out, it logs out from all accounts. However, the accounts will be able to be select, for a time, in the `/select-account` page, although the user will always have to log in before the account can be selected.
 
 # Options
 
@@ -82,16 +85,23 @@ You'll be able to tweak the following options
 
 * `selected_account_key` (default: `:selected_account_id`) key from session where the current account is stored;
 * `accounts_key` (default: `:accounts`) key from session where all authenticated accounts are stored;
+* `add_account_redirect_session_key` (default: `:add_account_redirect`) key from session where the uri to redirect after adding an account is stored;
+* `select_account_redirect_session_key` (default: `:select_account_redirect`) key from session where the uri to redirect after selecting an account is stored;
+* `require_selected_account_cookie_key` (default: `"_require_selected_account"`) key from cookies where it stored if an account has been selected for a flow requiring it;
 * `accounts_cookie_key` (default: `"_accounts"`) key from cookies where all previously used accounts are stored;
 * `accounts_cookie_options` (default: `{}.freeze`) accounts cookie options;
+* `require_selected_account_cookie_interval` (default: 5 minutes): for how much time the selected account will hold, for a flow requiring it;
 * `accounts_cookie_interval` (default: `14 + 60 * 60 * 24`, 14 days): for how much time the previously used accounts in the user agent are going to be remembered;
 * `no_account_error_status`: (default: 409) the status code used when no account is found for an existing account in session (for example, if an account has been closed or deleted);
+* `select_account_required_error_status`: (default: 403) the status code indicating that an account needs to be selected;
+* `add_account_required_error_status`: (default: 403) the status code indicating that an account needs to be added;
 * `no_account_message`: flash error message when no account is found;
 
 The following options and methods are also available to override, and names should be self-explanatory according to rodauth conventions:
 
 * `add_account_notice_flash`
 * `add_account_error_flash`
+* `require_add_account_error_flash`
 * `add_account_view`
 * `before_add_account_route`
 * `before_add_account`
@@ -100,6 +110,7 @@ The following options and methods are also available to override, and names shou
 * `add_account_redirect`
 * `select_account_notice_flash`
 * `select_account_error_flash`
+* `require_select_account_error_flash
 * `before_select_account_route`
 * `before_select_account`
 * `after_select_account`
@@ -112,6 +123,7 @@ The following options and methods are also available to override, and names shou
 These are also available methods:
 
 * `accounts_in_session`: returns all the available accounts in session
+* `require_select_account`: to be used like `require_account`, as a filter to actions that require a user to explicitly select an account before allowing it.
 
 ## Ruby support policy
 
