@@ -229,7 +229,7 @@ module Rodauth
       r.post do
         # This is a copy of the login routine
         skip_error_flash = false
-        view = :add_account
+        view = :add_account_view
 
         catch_error do
           # this instruction will load the new account
@@ -268,7 +268,7 @@ module Rodauth
         end
 
         set_error_flash add_account_error_flash unless skip_error_flash
-        send("#{view}_view")
+        send(view)
       end
     end
   end
