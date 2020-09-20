@@ -46,6 +46,79 @@ class RodauthSelectAccountSelectAccountTest < SelectAccountTest
     assert page.find("#notice_flash").text == "You have added a new account"
   end
 
+  def test_select_account_require_select_account_no_accounts
+    rodauth do
+      enable :select_account, :login, :logout
+    end
+    roda do |r|
+      r.rodauth
+
+      rodauth.require_select_account
+
+      account = DB[:accounts].where(id: rodauth.session_value).first
+      r.root { view content: "#{account[:email]} is selected" }
+    end
+
+    visit "/"
+    assert page.find("#error_flash").text == "Please login to continue"
+    login(visit: false)
+    assert page.html.include?("foo@example.com is selected")
+  end
+
+  def test_select_account_require_select_account_to_login
+    rodauth do
+      enable :select_account, :login, :logout
+    end
+    roda do |r|
+      r.rodauth
+
+      rodauth.require_select_account
+
+      account = DB[:accounts].where(id: rodauth.session_value).first
+      r.root { view content: "#{account[:email]} is selected" }
+    end
+
+    login
+    add_account(login: "foo2@example.com", pass: "1234567890")
+    logout
+    click_link "Home"
+
+    assert page.find("#error_flash").text == "Please select account to continue"
+    click_button("foo2@example.com")
+    assert page.find("#error_flash").text == "Please login to continue"
+    fill_in "Password", with: "1234567890"
+    click_button "Login"
+    assert page.html.include?("foo2@example.com is selected")
+  end
+
+  def test_select_account_require_select_account_to_add_account
+    rodauth do
+      enable :select_account, :login, :logout
+    end
+    roda do |r|
+      r.rodauth
+
+      rodauth.require_select_account
+
+      account = DB[:accounts].where(id: rodauth.session_value).first
+      r.root { view content: "#{account[:email]} is selected" }
+    end
+
+    login
+    add_account(login: "foo2@example.com", pass: "1234567890")
+    logout
+    login
+    click_link "Home"
+    click_link "Home"
+
+    assert page.find("#error_flash").text == "Please select account to continue"
+    click_button("foo2@example.com")
+    assert page.find("#error_flash").text == "Please add account to continue"
+    fill_in "Password", with: "1234567890"
+    click_button "Add Account"
+    assert page.html.include?("foo2@example.com is selected")
+  end
+
   private
 
   def select_account(login)

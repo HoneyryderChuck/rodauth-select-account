@@ -27,9 +27,11 @@ module Rodauth
     session_key :accounts_key, :accounts
     session_key :add_account_redirect_session_key, :add_account_redirect
     session_key :select_account_redirect_session_key, :select_account_redirect
+    auth_value_method :require_selected_account_cookie_key, "_require_selected_account"
     auth_value_method :accounts_cookie_key, "_accounts"
     auth_value_method :accounts_cookie_options, {}.freeze
-    auth_value_method :accounts_cookie_interval, 14 + 60 * 60 * 24 # 14 days
+    auth_value_method :accounts_cookie_interval, 14 * 60 * 60 * 24 # 14 days
+    auth_value_method :require_selected_account_cookie_interval, 60 * 5 # 5 minutes
     auth_value_method :no_account_error_status, 409
     auth_value_method :select_account_required_error_status, 403
     auth_value_method :add_account_required_error_status, 403
@@ -42,11 +44,33 @@ module Rodauth
     def require_login_redirect
       redirect_uri = super
 
-      return redirect_uri unless request.path == select_account_path && (login = param(login_param))
+      return redirect_uri unless request.path == select_account_path && (login = param_or_nil(login_param))
 
       redirect_uri = URI(redirect_uri)
       redirect_uri.query = [redirect_uri.query, "#{login_param}=#{login}"].join("&")
       redirect_uri.to_s
+    end
+
+    def require_select_account
+      # whether an account has been selected for a certain workflow will be driven by a short-lived
+      # cookie, which will hopefully be active during the duration of account selection
+      if request.cookies[require_selected_account_cookie_key]
+        ::Rack::Utils.delete_cookie_header!(response.headers, require_selected_account_cookie_key)
+        return
+      end
+
+      opts = {
+        value: true,
+        expires: Time.now + require_selected_account_cookie_interval
+      }
+      ::Rack::Utils.set_cookie_header!(response.headers, require_selected_account_cookie_key, opts)
+
+      # should redirect to the accounts page, and set this as the page to return to
+      redirect_uri = request.fullpath if request.get?
+      set_session_value(select_account_redirect_session_key, redirect_uri)
+      set_redirect_error_status(select_account_required_error_status)
+      set_redirect_error_flash require_select_account_error_flash
+      redirect select_account_path
     end
 
     def skip_login_field_on_login?
@@ -120,8 +144,10 @@ module Rodauth
     end
 
     def _account_ids_from_session
-      full_scope = method(:session).super_method.call
-      full_scope[accounts_key].reject do |_, session|
+      account_ids = method(:session).super_method.call[accounts_key]
+      return [] unless account_ids
+
+      account_ids.reject do |_, session|
         session.nil? || session.empty?
       end.keys.map(&:to_i)
     end
@@ -155,6 +181,7 @@ module Rodauth
     end
 
     route(:select_account) do |r|
+      login_after_select_account_required if accounts_in_session.empty?
       before_select_account_route
 
       r.get do
