@@ -94,7 +94,8 @@ pages:
   dependencies:
     - coverage
   script:
-    - ls .
+    - mkdir public
+    - mv coverage public/
   artifacts:
     paths:
       - public
