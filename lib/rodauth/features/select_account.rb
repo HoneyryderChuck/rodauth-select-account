@@ -7,6 +7,7 @@ module Rodauth
     # add-account
     notice_flash "You have added a new account", "add_account"
     error_flash "There was an error adding the new account", "add_account"
+    error_flash "Please add account to continue", "require_add_account"
     view "add-account", "Add Account", "add_account"
     before "add_account"
     after "add_account"
@@ -16,6 +17,7 @@ module Rodauth
     # select-account
     notice_flash "You have selected an account"
     error_flash "There was an error selecting the account"
+    error_flash "Please select account to continue", "require_select_account"
     before
     after
     redirect
@@ -29,6 +31,8 @@ module Rodauth
     auth_value_method :accounts_cookie_options, {}.freeze
     auth_value_method :accounts_cookie_interval, 14 + 60 * 60 * 24 # 14 days
     auth_value_method :no_account_error_status, 409
+    auth_value_method :select_account_required_error_status, 403
+    auth_value_method :add_account_required_error_status, 403
     translatable_method :no_account_message, "could not select account"
 
     def accounts_in_session
@@ -53,6 +57,24 @@ module Rodauth
     end
 
     private
+
+    # when selecting an account and requiring login, you'll want the user to go back to where it was
+    # before selecting accounts
+    def login_after_select_account_required
+      set_session_value(login_redirect_session_key, remove_session_value(select_account_redirect_session_key))
+      set_redirect_error_status(login_required_error_status)
+      set_redirect_error_flash require_login_error_flash
+      redirect require_login_redirect
+    end
+
+    # when selecting an account and requiring login, you'll want the user to go back to where it was
+    # before selecting accounts
+    def add_account_after_select_account_required
+      set_session_value(add_account_redirect_session_key, remove_session_value(select_account_redirect_session_key))
+      set_redirect_error_status(add_account_required_error_status)
+      set_redirect_error_flash require_add_account_error_flash
+      redirect(add_account_path + "?#{login_param}=#{param(login_param)}")
+    end
 
     def after_login
       super
@@ -136,15 +158,11 @@ module Rodauth
       before_select_account_route
 
       r.get do
-        set_session_value(select_account_redirect_session_key, request.referer) if login_return_to_requested_location?
         select_account_view
       end
 
       r.post do
-        unless logged_in?
-          # if user is not logged in, pre-fill /login form with selected account
-          login_required
-        end
+        login_after_select_account_required unless logged_in?
 
         catch_error do
           @account = accounts_in_session.where(login_column => param(login_param)).first
@@ -153,7 +171,7 @@ module Rodauth
 
           unless _account_ids_from_session.include?(account_session_value)
             # but he has no acknowledged session, redirect to /add-account
-            redirect(add_account_path + "?#{login_param}=#{param(login_param)}")
+            add_account_after_select_account_required
           end
 
           transaction do
@@ -167,7 +185,7 @@ module Rodauth
         end
 
         set_error_flash select_account_error_flash
-        redirect(default_redirect)
+        redirect(remove_session_value(select_account_redirect_session_key) || default_redirect)
       end
     end
 
@@ -219,7 +237,7 @@ module Rodauth
             after_add_account
           end
           set_notice_flash add_account_notice_flash
-          redirect(add_account_redirect)
+          redirect(remove_session_value(add_account_redirect_session_key) || add_account_redirect)
         end
 
         set_error_flash add_account_error_flash unless skip_error_flash
