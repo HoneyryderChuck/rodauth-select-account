@@ -1,13 +1,17 @@
+<div class="list-group">
 #{
 rodauth.accounts_in_session.map do |account| 
   next if account[rodauth.account_id_column] == rodauth.session_value
 
   <<-OUT
-    <form method="post" class="rodauth" role="form" id="select-account-form">>
+    <form method="post" class="rodauth" role="form" id="select-account-form">
       #{rodauth.csrf_tag}
       <input type="hidden" name="#{rodauth.login_param}" value="#{account[rodauth.login_column]}" />
-      #{rodauth.button(account[rodauth.login_column])}
+      <button type="submit" class="list-group-item list-group-item-action">
+        #{account[rodauth.login_column]}
+      </button>
     </form>
   OUT
 end.join
 }
+</div>
