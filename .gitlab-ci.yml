@@ -93,6 +93,8 @@ pages:
   stage: deploy
   dependencies:
     - coverage
+  script:
+    - ls .
   artifacts:
     paths:
       - public
