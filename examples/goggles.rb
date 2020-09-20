@@ -95,12 +95,6 @@ class Goggles < Roda
         </div>
       HTML
     end
-
-    r.on "accounts" do
-      view inline: <<-HTML
-      ACCOUNTS
-      HTML
-    end
   end
 
   def current_account

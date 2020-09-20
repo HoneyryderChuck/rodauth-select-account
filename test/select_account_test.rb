@@ -10,12 +10,6 @@ class RodauthSelectAccountSelectAccountTest < SelectAccountTest
     roda do |r|
       r.rodauth
 
-      r.on "accounts" do
-        r.get do
-          render("select_account")
-        end
-      end
-
       next unless rodauth.logged_in?
 
       account = DB[:accounts].where(id: rodauth.session_value).first

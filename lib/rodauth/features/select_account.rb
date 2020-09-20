@@ -19,9 +19,12 @@ module Rodauth
     before
     after
     redirect
+    view "select-account", "Select Account"
 
     session_key :selected_account_key, :selected_account_id
     session_key :accounts_key, :accounts
+    session_key :add_account_redirect_session_key, :add_account_redirect
+    session_key :select_account_redirect_session_key, :select_account_redirect
     auth_value_method :accounts_cookie_key, "_accounts"
     auth_value_method :accounts_cookie_options, {}.freeze
     auth_value_method :accounts_cookie_interval, 14 + 60 * 60 * 24 # 14 days
@@ -132,6 +135,11 @@ module Rodauth
     route(:select_account) do |r|
       before_select_account_route
 
+      r.get do
+        set_session_value(select_account_redirect_session_key, request.referer) if login_return_to_requested_location?
+        select_account_view
+      end
+
       r.post do
         unless logged_in?
           # if user is not logged in, pre-fill /login form with selected account
@@ -169,6 +177,7 @@ module Rodauth
       before_add_account_route
 
       r.get do
+        set_session_value(add_account_redirect_session_key, request.referer) if login_return_to_requested_location?
         add_account_view
       end
 

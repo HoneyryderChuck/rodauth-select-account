@@ -7,7 +7,7 @@
 #{"<div id='error_flash'>#{opts[:sessions_convert_symbols] ? flash['error'] : flash[:error]}</div>" if opts[:sessions_convert_symbols] ? flash['error'] : flash[:error]}
 #{"<div id='notice_flash'>#{opts[:sessions_convert_symbols] ? flash['notice'] : flash[:notice]}</div>" if opts[:sessions_convert_symbols] ? flash['notice'] : flash[:notice]}
 <nav>
-<a href='/accounts'>Accounts</a>
+<a href='/select-account'>Accounts</a>
 #{"<a href='/add-account'>Add Account</a>" if rodauth.logged_in?}
 </nav>
 #{yield}
