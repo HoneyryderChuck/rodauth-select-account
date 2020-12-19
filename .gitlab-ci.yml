@@ -20,7 +20,7 @@ cache:
   - bundle exec rake rubocop
 
 variables:
-  BUNDLE_JOBS: 4
+  BUNDLE_JOBS: 10
   BUNDLE_PATH: vendor
   CI: 1
   PARALLEL: 1
@@ -72,6 +72,17 @@ ruby27:
   artifacts:
     paths:
       - "coverage/"
+ruby30:
+  before_script:
+    - *deps_alpine
+    - *before_script
+  image: "ruby:3.0-rc-alpine"
+  script:
+    - *test
+  artifacts:
+    paths:
+      - "coverage/"
+
 
 coverage:
   stage: prepare
