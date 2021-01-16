@@ -127,7 +127,7 @@ These are also available methods:
 
 ## Ruby support policy
 
-The minimum Ruby version required to run `rodauth-select-account` is 2.4 . Besides that, it should support all rubies that rodauth and roda support, including JRuby and (potentially, I don't know yet) truffleruby.
+The minimum Ruby version required to run `rodauth-select-account` is 2.4 . Besides that, it supports all rubies that rodauth and roda support, including JRuby and truffleruby.
 
 ## Development
 

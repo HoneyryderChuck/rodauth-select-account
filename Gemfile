@@ -23,7 +23,7 @@ gem "webmock"
 gem "pry"
 gem "rubocop"
 
-platform :mri do
+platform :mri, :truffleruby do
   gem "pry-byebug"
   gem "sqlite3"
   # Docs/Website

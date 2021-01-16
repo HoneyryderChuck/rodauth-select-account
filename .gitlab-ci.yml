@@ -37,6 +37,20 @@ jruby:
   image: "jruby:9.2.13"
   script:
     - *test
+  artifacts:
+    paths:
+      - "coverage/"
+truffleruby:
+  allow_failure: true
+  before_script:
+    - apt-get update && apt-get install -y
+    - *before_script
+  image: "flavorjones/truffleruby:latest"
+  script:
+    - *test
+  artifacts:
+    paths:
+      - "coverage/"
 ruby24:
   before_script:
     - *deps_alpine
@@ -83,7 +97,6 @@ ruby30:
     paths:
       - "coverage/"
 
-
 coverage:
   stage: prepare
   before_script:
@@ -91,8 +104,10 @@ coverage:
     - *before_script
   dependencies:
     - jruby
+    - truffleruby
     - ruby24
     - ruby27
+    - ruby30
   image: "ruby:2.7-alpine"
   script:
     - bundle exec rake coverage:report
