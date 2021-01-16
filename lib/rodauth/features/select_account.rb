@@ -54,15 +54,18 @@ module Rodauth
     def require_select_account
       # whether an account has been selected for a certain workflow will be driven by a short-lived
       # cookie, which will hopefully be active during the duration of account selection
+      opts = Hash[accounts_cookie_options]
+      opts[:path] = "/" unless opts.key?(:path)
       if request.cookies[require_selected_account_cookie_key]
-        ::Rack::Utils.delete_cookie_header!(response.headers, require_selected_account_cookie_key)
+        ::Rack::Utils.delete_cookie_header!(response.headers, require_selected_account_cookie_key, opts)
         return
       end
 
-      opts = {
-        value: true,
-        expires: Time.now + require_selected_account_cookie_interval
-      }
+      opts[:value] = true
+      opts[:expires] = Time.now + require_selected_account_cookie_interval
+      opts[:httponly] = true unless opts.key?(:httponly)
+      opts[:secure] = true unless opts.key?(:secure) || !request.ssl?
+
       ::Rack::Utils.set_cookie_header!(response.headers, require_selected_account_cookie_key, opts)
 
       # should redirect to the accounts page, and set this as the page to return to
@@ -170,6 +173,9 @@ module Rodauth
       opts = Hash[accounts_cookie_options]
       opts[:value] = accounts_cookie.join(",")
       opts[:expires] = Time.now + accounts_cookie_interval
+      opts[:path] = "/" unless opts.key?(:path)
+      opts[:httponly] = true unless opts.key?(:httponly)
+      opts[:secure] = true unless opts.key?(:secure) || !request.ssl?
       ::Rack::Utils.set_cookie_header!(response.headers, accounts_cookie_key, opts)
     end
 
