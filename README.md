@@ -110,7 +110,7 @@ The following options and methods are also available to override, and names shou
 * `add_account_redirect`
 * `select_account_notice_flash`
 * `select_account_error_flash`
-* `require_select_account_error_flash
+* `require_select_account_error_flash`
 * `before_select_account_route`
 * `before_select_account`
 * `after_select_account`
