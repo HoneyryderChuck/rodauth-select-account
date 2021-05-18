@@ -9,7 +9,7 @@
 #
 # See https://docs.rubocop.org/rubocop/configuration
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Include:
     - lib/**/*.rb
     - test/**/*.rb
@@ -30,7 +30,10 @@ Naming/FileName:
     - Rakefile
     - Gemfile
     - lib/rodauth/select-account.rb
-    
+
+Bundler/DuplicatedGem:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: false
 
@@ -44,6 +47,9 @@ Metrics/ModuleLength:
   Enabled: false
 
 Style/Documentation:
+  Enabled: false
+
+Style/HashConversion:
   Enabled: false
 
 Style/StringLiterals:
