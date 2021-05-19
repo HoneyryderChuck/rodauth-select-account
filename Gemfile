@@ -21,7 +21,16 @@ gem "minitest-hooks"
 gem "webmock"
 
 gem "pry"
-gem "rubocop"
+
+if RUBY_VERSION < "2.5"
+  gem "rubocop", "~> 1.12.0"
+  gem "rubocop-performance", "~> 1.10.2"
+  gem "simplecov", "~> 0.18.0"
+else
+  gem "rubocop"
+  gem "rubocop-performance"
+  gem "simplecov"
+end
 
 platform :mri, :truffleruby do
   gem "pry-byebug"
@@ -33,5 +42,3 @@ end
 platform :jruby do
   gem "jdbc-sqlite3"
 end
-
-gem "simplecov"

@@ -43,9 +43,9 @@ jruby:
 truffleruby:
   allow_failure: true
   before_script:
-    - apt-get update && apt-get install -y
+    - microdnf install gcc make sqlite-devel git
     - *before_script
-  image: "flavorjones/truffleruby:latest"
+  image: "ghcr.io/graalvm/truffleruby:latest"
   script:
     - *test
   artifacts:
