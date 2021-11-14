@@ -90,7 +90,7 @@ ruby30:
   before_script:
     - *deps_alpine
     - *before_script
-  image: "ruby:3.0-rc-alpine"
+  image: "ruby:3.0-alpine"
   script:
     - *test
   artifacts:
