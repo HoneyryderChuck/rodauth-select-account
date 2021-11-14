@@ -90,7 +90,7 @@ ruby30:
   before_script:
     - *deps_alpine
     - *before_script
-  image: "ruby:3.0-rc-alpine"
+  image: "ruby:3.0-alpine"
   script:
     - *test
   artifacts:
@@ -108,7 +108,7 @@ coverage:
     - ruby24
     - ruby27
     - ruby30
-  image: "ruby:2.7-alpine"
+  image: "ruby:3.0-alpine"
   script:
     - bundle exec rake coverage:report
   artifacts:
