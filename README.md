@@ -125,6 +125,14 @@ These are also available methods:
 * `accounts_in_session`: returns all the available accounts in session
 * `require_select_account`: to be used like `require_account`, as a filter to actions that require a user to explicitly select an account before allowing it.
 
+#### Internationalization (i18n)
+
+`rodauth-select-account` supports translating all user-facing text found in all pages and forms and buttons, by integrating with [rodauth-i18n](https://github.com/janko/rodauth-i18n). Just set it up in your application and `rodauth` configuration.
+
+Default translations shipping with `rodauth-select-account` can be found [in this directory](https://gitlab.com/honeyryderchuck/rodauth-select-account/-/tree/master/locales). If they're not available for the languages you'd like to support, consider getting them translated from the english text, and contributing them to this repository via a Merge Request.
+
+(This feature is available since `v0.1`.)
+
 ## Ruby support policy
 
 The minimum Ruby version required to run `rodauth-select-account` is 2.4 . Besides that, it supports all rubies that rodauth and roda support, including JRuby and truffleruby.
@@ -136,4 +144,3 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 ## Contributing
 
 Bug reports and pull requests are welcome on Gitlab at https://gitlab.com/honeyryderchuck/rodauth-select-account.
-
