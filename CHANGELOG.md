@@ -2,6 +2,10 @@
 
 ## master
 
+## 0.1.0
+
+Support for internationalization (I18n) by hooking up with [rodauth-i18n](https://github.com/janko/rodauth-i18n). Shipping translation for english under `locales/` dir.
+
 ## 0.0.4
 
 Cookies used for selected account are now secure by default (httponly on, secure if request is TLS-enabled);
