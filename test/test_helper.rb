@@ -20,6 +20,7 @@ require "minitest/hooks"
 
 require "sequel"
 require "roda"
+require "rodauth/i18n"
 require "rodauth/select-account"
 require "rodauth/version"
 require "bcrypt"
@@ -97,6 +98,7 @@ class SelectAccountTest < Minitest::Test
     rodauth_block = @rodauth_block
     opts = rodauth_opts(type)
     app.plugin(:rodauth, opts) do
+      enable :i18n
       account_password_hash_column :ph
       title_instance_variable :@title
       instance_exec(&rodauth_block)
@@ -105,6 +107,7 @@ class SelectAccountTest < Minitest::Test
     app.precompile_rodauth_templates unless @no_precompile
     app.freeze unless @no_freeze
     self.app = app
+    Rodauth::I18n.add
   end
 
   def remove_cookie(key)

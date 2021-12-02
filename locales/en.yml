@@ -1,0 +1,12 @@
+en:
+  rodauth:
+    add_account_notice_flash: "You have added a new account"
+    add_account_error_flash: "There was an error adding the new account"
+    require_add_account_error_flash: "Please add account to continue"
+    add_account_page_title: "Add Account"
+    add_account_button: "Add Account"
+    select_account_notice_flash: "You have selected an account"
+    select_account_error_flash: "There was an error selecting the account"
+    require_select_account_error_flash: "Please select account to continue"
+    select_account_page_title: "Select Account"
+    no_account_message: "could not select account"

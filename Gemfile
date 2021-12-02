@@ -11,6 +11,7 @@ gem "rack_csrf"
 
 gem "roda"
 gem "rodauth"
+gem "rodauth-i18n"
 gem "sequel"
 gem "tilt"
 
