@@ -9,9 +9,9 @@ gem "rake", "~> 12.3"
 gem "bcrypt"
 gem "rack_csrf"
 
-gem "roda"
+gem "roda", ">= 2.0.0"
 gem "rodauth"
-gem "rodauth-i18n"
+gem "rodauth-i18n", ">= 0.2.0"
 gem "sequel"
 gem "tilt"
 

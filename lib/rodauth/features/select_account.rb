@@ -83,6 +83,11 @@ module Rodauth
       true
     end
 
+    def post_configure
+      super
+      i18n_register(File.expand_path(File.join(__dir__, "..", "..", "..", "locales"))) if features.include?(:i18n)
+    end
+
     private
 
     # when selecting an account and requiring login, you'll want the user to go back to where it was
