@@ -20,7 +20,6 @@ require "minitest/hooks"
 
 require "sequel"
 require "roda"
-require "rodauth/i18n"
 require "rodauth/select-account"
 require "rodauth/version"
 require "bcrypt"
@@ -107,7 +106,6 @@ class SelectAccountTest < Minitest::Test
     app.precompile_rodauth_templates unless @no_precompile
     app.freeze unless @no_freeze
     self.app = app
-    Rodauth::I18n.add
   end
 
   def remove_cookie(key)
