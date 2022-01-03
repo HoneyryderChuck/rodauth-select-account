@@ -36,7 +36,7 @@ jruby:
   before_script:
     - apt-get update && apt-get install -y
     - *before_script
-  image: "jruby:9.2.13"
+  image: "jruby:9.3"
   script:
     - *test
   artifacts:
@@ -98,6 +98,16 @@ ruby30:
   artifacts:
     paths:
       - "coverage/"
+ruby31:
+  before_script:
+    - *deps_alpine
+    - *before_script
+  image: "ruby:3.1-alpine"
+  script:
+    - *test
+  artifacts:
+    paths:
+      - "coverage/"
 
 coverage:
   stage: prepare
@@ -109,8 +119,8 @@ coverage:
     - truffleruby
     - ruby24
     - ruby27
-    - ruby30
-  image: "ruby:3.0-alpine"
+    - ruby31
+  image: "ruby:3.1-alpine"
   script:
     - bundle exec rake coverage:report
   artifacts:
