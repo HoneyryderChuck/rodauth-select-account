@@ -19,7 +19,6 @@ cache:
 
 .test: &test
   - bundle exec rake test
-  - bundle exec rake rubocop
 
 variables:
   BUNDLE_JOBS: 10
@@ -104,6 +103,7 @@ ruby31:
     - *before_script
   image: "ruby:3.1-alpine"
   script:
+    - bundle exec rake rubocop
     - *test
   artifacts:
     paths:
