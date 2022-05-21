@@ -111,6 +111,7 @@ ruby31:
 
 coverage:
   stage: prepare
+  coverage: '/\(\d+.\d+%\) covered/'
   before_script:
     - *deps_alpine
     - *before_script
