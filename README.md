@@ -1,5 +1,6 @@
 # Rodauth::SelectAccount
 
+[![Gem Version](https://badge.fury.io/rb/rodauth-select-account.svg)](http://rubygems.org/gems/rodauth-select-account)
 [![pipeline status](https://gitlab.com/honeyryderchuck/rodauth-select-account/badges/master/pipeline.svg)](https://gitlab.com/honeyryderchuck/rodauth-select-account/-/pipelines?page=1&ref=master)
 [![coverage report](https://gitlab.com/honeyryderchuck/rodauth-select-account/badges/master/coverage.svg)](https://honeyryderchuck.gitlab.io/rodauth-select-account/coverage/#_AllFiles)
 
