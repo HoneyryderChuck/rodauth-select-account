@@ -44,7 +44,7 @@ jruby:
 truffleruby:
   allow_failure: true
   before_script:
-    - dnf install -y gcc make sqlite-devel git
+    - dnf install -y gcc make sqlite-devel git libxslt-devel libxml2-devel xz
     - *before_script
   image: "ghcr.io/graalvm/truffleruby:latest"
   script:
