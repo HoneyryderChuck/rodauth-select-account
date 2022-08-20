@@ -30,6 +30,8 @@ if RUBY_VERSION < "2.5"
 else
   gem "rubocop"
   gem "rubocop-performance"
+  gem "rubocop-sequel"
+  gem "rubocop-thread_safety"
   gem "simplecov"
 end
 

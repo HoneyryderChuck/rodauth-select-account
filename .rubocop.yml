@@ -8,6 +8,12 @@
 # where the inspected file is and continue its way up to the root directory.
 #
 # See https://docs.rubocop.org/rubocop/configuration
+
+require:
+  - rubocop-performance
+  - rubocop-thread_safety
+  - rubocop-sequel
+
 AllCops:
   TargetRubyVersion: 2.7
   Include:
@@ -63,4 +69,3 @@ Style/SafeNavigation:
 
 Style/FetchEnvVar:
   Enabled: false
-
