@@ -14,7 +14,7 @@ AllCops:
     - lib/**/*.rb
     - test/**/*.rb
     - Gemfile
-    - roda-oauth.gemspec
+    - rodauth-select-account.gemspec
     - examples/**/*.rb
   Exclude:
     - Rakefile
@@ -32,6 +32,9 @@ Naming/FileName:
     - lib/rodauth/select-account.rb
 
 Bundler/DuplicatedGem:
+  Enabled: false
+
+Gemspec/RequiredRubyVersion:
   Enabled: false
 
 Metrics/BlockLength:
