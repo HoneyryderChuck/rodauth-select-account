@@ -37,7 +37,7 @@ end
 
 platform :mri, :truffleruby do
   gem "pry-byebug"
-  if RUBY_VERSION >= "2.4.0"
+  if RUBY_VERSION >= "2.6.0"
     gem "sqlite3"
   else
     gem "sqlite3", "< 1.5.0"
