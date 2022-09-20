@@ -37,7 +37,11 @@ end
 
 platform :mri, :truffleruby do
   gem "pry-byebug"
-  gem "sqlite3"
+  if RUBY_VERSION >= "2.4.0"
+    gem "sqlite3"
+  else
+    gem "sqlite3", "< 1.5.0"
+  end
   # Docs/Website
   gem "hanna-nouveau", require: false if RUBY_VERSION > "2.5"
 end
