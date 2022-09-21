@@ -42,8 +42,6 @@ platform :mri, :truffleruby do
   else
     gem "sqlite3", "< 1.5.0"
   end
-  # Docs/Website
-  gem "hanna-nouveau", require: false if RUBY_VERSION > "2.5"
 end
 
 platform :jruby do

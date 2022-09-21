@@ -108,6 +108,18 @@ ruby31:
   artifacts:
     paths:
       - "coverage/"
+ruby32:
+  before_script:
+    - *deps_alpine
+    - *before_script
+  image: "ruby:3.2-rc-alpine"
+  script:
+    - bundle exec rake rubocop
+    - *test
+  artifacts:
+    paths:
+      - "coverage/"
+
 
 coverage:
   stage: prepare
@@ -120,8 +132,8 @@ coverage:
     - truffleruby
     - ruby24
     - ruby27
-    - ruby31
-  image: "ruby:3.1-alpine"
+    - ruby32
+  image: "ruby:3.2-rc-alpine"
   script:
     - bundle exec rake coverage:report
   artifacts:
