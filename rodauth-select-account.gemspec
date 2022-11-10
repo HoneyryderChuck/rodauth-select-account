@@ -11,12 +11,12 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Multiple authenticated accounts per session in rodauth."
   spec.description   = "Multiple authenticated accounts per session in rodauth."
-  spec.homepage      = "https://gitlab.com/honeyryderchuck/rodauth-select-account"
+  spec.homepage      = "https://gitlab.com/os85/rodauth-select-account"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://gitlab.com/honeyryderchuck/rodauth-select-account"
-  spec.metadata["changelog_uri"] = "https://gitlab.com/honeyryderchuck/rodauth-select-account/-/blob/master/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = "https://gitlab.com/os85/rodauth-select-account"
+  spec.metadata["changelog_uri"] = "https://gitlab.com/os85/rodauth-select-account/-/blob/master/CHANGELOG.md"
 
   spec.license = "Apache 2.0"
   spec.files = Dir["LICENSE.txt", "README.md", "lib/**/*.rb", "locales/*", "templates/*", "CHANGELOG.md"]

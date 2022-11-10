@@ -1,8 +1,8 @@
 # Rodauth::SelectAccount
 
 [![Gem Version](https://badge.fury.io/rb/rodauth-select-account.svg)](http://rubygems.org/gems/rodauth-select-account)
-[![pipeline status](https://gitlab.com/honeyryderchuck/rodauth-select-account/badges/master/pipeline.svg)](https://gitlab.com/honeyryderchuck/rodauth-select-account/-/pipelines?page=1&ref=master)
-[![coverage report](https://gitlab.com/honeyryderchuck/rodauth-select-account/badges/master/coverage.svg)](https://honeyryderchuck.gitlab.io/rodauth-select-account/coverage/#_AllFiles)
+[![pipeline status](https://gitlab.com/os85/rodauth-select-account/badges/master/pipeline.svg)](https://gitlab.com/os85/rodauth-select-account/-/pipelines?page=1&ref=master)
+[![coverage report](https://gitlab.com/os85/rodauth-select-account/badges/master/coverage.svg)](https://os85.gitlab.io/rodauth-select-account/coverage/#_AllFiles)
 
 This gem adds a feature to `rodauth` to support the management of multiple accounts in the same session. The behaviour is similar to how the "Google Sign-In" widget works, where you can sign-in with a different account, or switch to an already authenticated account.
 
@@ -130,7 +130,7 @@ These are also available methods:
 
 `rodauth-select-account` supports translating all user-facing text found in all pages and forms and buttons, by integrating with [rodauth-i18n](https://github.com/janko/rodauth-i18n). Just set it up in your application and `rodauth` configuration.
 
-Default translations shipping with `rodauth-select-account` can be found [in this directory](https://gitlab.com/honeyryderchuck/rodauth-select-account/-/tree/master/locales). If they're not available for the languages you'd like to support, consider getting them translated from the english text, and contributing them to this repository via a Merge Request.
+Default translations shipping with `rodauth-select-account` can be found [in this directory](https://gitlab.com/os85/rodauth-select-account/-/tree/master/locales). If they're not available for the languages you'd like to support, consider getting them translated from the english text, and contributing them to this repository via a Merge Request.
 
 (This feature is available since `v0.1`.)
 
@@ -144,4 +144,4 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 
 ## Contributing
 
-Bug reports and pull requests are welcome on Gitlab at https://gitlab.com/honeyryderchuck/rodauth-select-account.
+Bug reports and pull requests are welcome on Gitlab at https://gitlab.com/os85/rodauth-select-account.
