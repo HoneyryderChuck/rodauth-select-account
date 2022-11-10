@@ -2,6 +2,10 @@
 
 ## master
 
+## 0.1.2
+
+point release to update project links in rubygems.
+
 ## 0.1.1
 
 Updating integration with `rodauth-i18n`, which changed the setup for `v0.2.0`.
