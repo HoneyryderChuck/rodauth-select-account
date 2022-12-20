@@ -27,7 +27,7 @@ end
 DB.extension :date_arithmetic
 DB.freeze
 
-hash = ::BCrypt::Password.create("password", cost: BCrypt::Engine::MIN_COST)
+hash = BCrypt::Password.create("password", cost: BCrypt::Engine::MIN_COST)
 DB[:accounts].insert_conflict(target: :email).insert(email: "foo@bar.com", ph: hash)
 DB[:accounts].insert_conflict(target: :email).insert(email: "foo2@bar.com", ph: hash)
 DB[:accounts].insert_conflict(target: :email).insert(email: "foo3@bar.com", ph: hash)
