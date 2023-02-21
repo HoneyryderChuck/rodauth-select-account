@@ -14,8 +14,8 @@ cache:
 .before_script: &before_script
   - bundle install
 
-.deps_alpine: &deps_alpine
-  - apk --update add g++ make sqlite sqlite-dev git
+.system_deps: &system_deps
+  - apt-get update && apt-get install -y libsqlite3-dev
 
 .test: &test
   - bundle exec rake test
@@ -54,34 +54,34 @@ truffleruby:
       - "coverage/"
 ruby24:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:2.4-alpine"
+  image: "ruby:2.4"
   script:
     - *test
 ruby25:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:2.5-alpine"
+  image: "ruby:2.5"
   only:
     - master
   script:
     - *test
 ruby26:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:2.6-alpine"
+  image: "ruby:2.6"
   only:
     - master
   script:
     - *test
 ruby27:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:2.7-alpine"
+  image: "ruby:2.7"
   script:
     - *test
   artifacts:
@@ -89,9 +89,9 @@ ruby27:
       - "coverage/"
 ruby30:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:3.0-alpine"
+  image: "ruby:3.0"
   script:
     - *test
   artifacts:
@@ -99,9 +99,9 @@ ruby30:
       - "coverage/"
 ruby31:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:3.1-alpine"
+  image: "ruby:3.1"
   script:
     - bundle exec rake rubocop
     - *test
@@ -110,9 +110,9 @@ ruby31:
       - "coverage/"
 ruby32:
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
-  image: "ruby:3.2-rc-alpine"
+  image: "ruby:3.2"
   script:
     - bundle exec rake rubocop
     - *test
@@ -125,7 +125,7 @@ coverage:
   stage: prepare
   coverage: '/\(\d+.\d+%\) covered/'
   before_script:
-    - *deps_alpine
+    - *system_deps
     - *before_script
   dependencies:
     - jruby
@@ -133,7 +133,7 @@ coverage:
     - ruby24
     - ruby27
     - ruby32
-  image: "ruby:3.2-rc-alpine"
+  image: "ruby:3.2"
   script:
     - bundle exec rake coverage:report
   artifacts:
