@@ -46,7 +46,7 @@ truffleruby:
   before_script:
     - dnf install -y gcc make sqlite-devel git libxslt-devel libxml2-devel xz
     - *before_script
-  image: "ghcr.io/graalvm/truffleruby:latest"
+  image: "ghcr.io/graalvm/truffleruby-community:latest"
   script:
     - *test
   artifacts:
