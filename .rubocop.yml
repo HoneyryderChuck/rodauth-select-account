@@ -69,3 +69,6 @@ Style/SafeNavigation:
 
 Style/FetchEnvVar:
   Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
