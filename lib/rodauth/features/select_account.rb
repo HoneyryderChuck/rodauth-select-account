@@ -62,7 +62,7 @@ module Rodauth
       end
 
       opts[:value] = true
-      opts[:expires] = Time.now + require_selected_account_cookie_interval
+      opts[:expires] = Time.now + require_selected_account_cookie_interval if require_selected_account_cookie_interval
       opts[:httponly] = true unless opts.key?(:httponly)
       opts[:secure] = true unless opts.key?(:secure) || !request.ssl?
 
@@ -177,7 +177,7 @@ module Rodauth
 
       opts = Hash[accounts_cookie_options]
       opts[:value] = accounts_cookie.join(",")
-      opts[:expires] = Time.now + accounts_cookie_interval
+      opts[:expires] = Time.now + accounts_cookie_interval if accounts_cookie_interval
       opts[:path] = "/" unless opts.key?(:path)
       opts[:httponly] = true unless opts.key?(:httponly)
       opts[:secure] = true unless opts.key?(:secure) || !request.ssl?
