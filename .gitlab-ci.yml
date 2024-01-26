@@ -18,6 +18,7 @@ cache:
   - apt-get update && apt-get install -y libsqlite3-dev
 
 .test: &test
+  - bundle exec rake check_method_doc
   - bundle exec rake test
 
 variables:

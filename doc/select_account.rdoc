@@ -1,0 +1,47 @@
+= Documentation for Select Account
+
+The +select_account+ feature allows for maintaining and switching across multiple accounts in the same session.
+
+== Auth Value Methods
+
+selected_account_key :: session key where the selected account state is stored.
+accounts_key :: session key where the logged-in accounts state is stored.
+add_account_redirect_session_key :: session key where the url to redirect to after adding an account is stored.
+select_account_redirect_session_key :: session key where the url to redirect to after selecting an account is stored.
+require_selected_account_cookie_key :: cookie key storing whether a selected account is required.
+require_selected_account_cookie_interval :: duration for the require selected account cookie (5 minutes by default); can be set to <tt>nil</tt> in order not to set cookie "Expires".
+accounts_cookie_key :: cookie key where the selected accounts are stored.
+accounts_cookie_options :: cookie options for the selected accounts cookie
+accounts_cookie_interval :: duration for the selected accounts cookie (14 days by default); can be set to <tt>nil</tt> in order not to set cookie "Expires".
+no_account_error_status :: http status code for the response when the account to switch to does not exist anymore.
+select_account_required_error_status :: http status code for the response when a selected account is required.
+add_account_required_error_status :: http status code for the response when addig an account is required.
+no_account_message :: error description when no account was found, <tt>"could not select account"</tt> by default.
+
+
+add_account_button :: Label of add account button.
+add_account_error_flash :: The flash error message to display when there was an error adding an account.
+add_account_notice_flash :: The flash success message to display after adding an account.
+require_add_account_error_flash ::  he flash error message to display when adding an account is required.
+add_account_page_title :: Title for the Add Account form.
+add_account_redirect :: URL to redirect to after adding an account.
+add_account_route :: the route for adding an account, +add-account+ by default.
+
+select_account_error_flash :: The flash error message to display when there was an error selecting an account.
+select_account_notice_flash :: The flash success message to display after selecting an account.
+require_select_account_error_flash ::  he flash error message to display when selecting an account is required.
+select_account_page_title :: Title for the Select Account form.
+select_account_redirect :: URL to redirect to after selecting an account.
+select_account_route :: the route for selecting an account, +select-account+ by default.
+
+
+== Auth Methods
+
+add_account_view :: The HTML template of the Add Account form.
+before_add_account_route :: Run arbitrary code before the add account route.
+before_add_account :: Run arbitrary code before adding an account.
+after_add_account :: Run arbitrary code after adding an account.
+select_account_view :: The HTML template of the Select Account form.
+before_select_account_route :: Run arbitrary code before the add account route.
+before_select_account :: Run arbitrary code before selecting an account.
+after_select_account :: Run arbitrary code after selecting an account.
