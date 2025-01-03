@@ -131,7 +131,17 @@ ruby33:
   artifacts:
     paths:
       - "coverage/"
-
+ruby34:
+  before_script:
+    - *system_deps
+    - *before_script
+  image: "ruby:3.4"
+  script:
+    - bundle exec rake rubocop
+    - *test
+  artifacts:
+    paths:
+      - "coverage/"
 
 coverage:
   stage: prepare
@@ -144,8 +154,8 @@ coverage:
     - truffleruby
     - ruby24
     - ruby27
-    - ruby33
-  image: "ruby:3.3"
+    - ruby34
+  image: "ruby:3.4"
   script:
     - bundle exec rake coverage:report
   artifacts:
