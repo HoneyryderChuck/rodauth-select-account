@@ -2,6 +2,10 @@
 
 ## master
 
+## 0.1.3
+
+* allow setting `require_selected_account_cookie_interval` and `accounts_cookie_interval` to `nil` in order to set the managed cookies as "Session Cookies" (i.e. getting wiped out on browser close).
+
 ## 0.1.2
 
 point release to update project links in rubygems.
