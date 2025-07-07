@@ -72,3 +72,7 @@ Style/FetchEnvVar:
 
 Metrics/CyclomaticComplexity:
   Enabled: false
+
+Lint/SuppressedException:
+  Exclude:
+    - Rakefile

@@ -3,7 +3,6 @@
 require "bundler/gem_tasks"
 require "rdoc/task"
 require "rake/testtask"
-require "rubocop/rake_task"
 
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
@@ -12,8 +11,12 @@ Rake::TestTask.new(:test) do |t|
   t.warning = false
 end
 
-desc "Run rubocop"
-RuboCop::RakeTask.new(:rubocop)
+begin
+  require "rubocop/rake_task"
+  desc "Run rubocop"
+  RuboCop::RakeTask.new(:rubocop)
+rescue LoadError
+end
 
 task default: :test
 
@@ -32,7 +35,7 @@ end
 
 rdoc_opts = ["--line-numbers", "--title", "Rodauth Select Account: Multiple Accounts per session in rodauth."]
 
-rdoc_opts.concat(["--main", "README.md"])
+rdoc_opts.push("--main", "README.md")
 RDOC_FILES = %w[README.md CHANGELOG.md lib/**/*.rb] + Dir["doc/*.rdoc"]
 
 RDoc::Task.new do |rdoc|
@@ -41,13 +44,14 @@ RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.add RDOC_FILES
 end
 
-
 desc "Check configuration method documentation"
 task :check_method_doc do
   docs = {}
   Dir["doc/*.rdoc"].sort.each do |f|
-    meths = File.binread(f).split("\n").grep(/\A(\w+[!?]?(\([^\)]+\))?) :: /).map { |line| line.split(/( :: |\()/, 2)[0] }.sort
-    docs[File.basename(f).sub(/\.rdoc\z/, "")] = meths unless meths.empty?
+    meths = File.binread(f).split("\n").grep(/\A(\w+[!?]?(\([^\)]+\))?) :: /).map do |line|
+      line.split(/( :: |\()/, 2)[0]
+    end.sort
+    docs[File.basename(f).delete_suffix(".rdoc")] = meths unless meths.empty?
   end
   require "rodauth/select-account"
   docs.each do |f, doc_meths|
