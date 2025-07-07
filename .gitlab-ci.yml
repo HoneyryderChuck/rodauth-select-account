@@ -64,7 +64,7 @@ ruby25:
   only:
     - master
   script:
-    - *test
+    - bundle exec rake test
 ruby26:
   before_script:
     - *system_deps
