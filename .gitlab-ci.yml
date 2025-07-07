@@ -17,10 +17,6 @@ cache:
 .system_deps: &system_deps
   - apt-get update && apt-get install -y libsqlite3-dev
 
-.test: &test
-  - bundle exec rake check_method_doc
-  - bundle exec rake test
-
 variables:
   BUNDLE_JOBS: 10
   BUNDLE_PATH: vendor
@@ -38,7 +34,7 @@ jruby:
     - *before_script
   image: "jruby:10"
   script:
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -49,7 +45,7 @@ truffleruby:
     - *before_script
   image: "ghcr.io/graalvm/truffleruby-community:latest"
   script:
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -59,7 +55,7 @@ ruby24:
     - *before_script
   image: "ruby:2.4"
   script:
-    - *test
+    - bundle exec rake test
 ruby25:
   before_script:
     - *system_deps
@@ -77,14 +73,14 @@ ruby26:
   only:
     - master
   script:
-    - *test
+    - bundle exec rake test
 ruby27:
   before_script:
     - *system_deps
     - *before_script
   image: "ruby:2.7"
   script:
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -94,7 +90,7 @@ ruby30:
     - *before_script
   image: "ruby:3.0"
   script:
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -105,7 +101,7 @@ ruby31:
   image: "ruby:3.1"
   script:
     - bundle exec rake rubocop
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -116,7 +112,7 @@ ruby32:
   image: "ruby:3.2"
   script:
     - bundle exec rake rubocop
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -127,7 +123,7 @@ ruby33:
   image: "ruby:3.3"
   script:
     - bundle exec rake rubocop
-    - *test
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
@@ -138,7 +134,8 @@ ruby34:
   image: "ruby:3.4"
   script:
     - bundle exec rake rubocop
-    - *test
+    - bundle exec rake check_method_doc
+    - bundle exec rake test
   artifacts:
     paths:
       - "coverage/"
