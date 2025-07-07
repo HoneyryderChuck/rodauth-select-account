@@ -19,20 +19,16 @@ gem "tilt"
 gem "capybara"
 gem "minitest", "~> 5.0"
 gem "minitest-hooks"
+gem "simplecov"
 gem "webmock"
 
 gem "pry"
 
-if RUBY_VERSION < "2.5"
-  gem "rubocop", "~> 1.12.0"
-  gem "rubocop-performance", "~> 1.10.2"
-  gem "simplecov", "~> 0.18.0"
-else
+platform :mri do
   gem "rubocop"
   gem "rubocop-performance"
   gem "rubocop-sequel"
   gem "rubocop-thread_safety"
-  gem "simplecov"
 end
 
 platform :mri, :truffleruby do
