@@ -142,7 +142,7 @@ ruby34:
 
 coverage:
   stage: prepare
-  coverage: '/\(\d+.\d+%\) covered/'
+  coverage: '/Coverage: \d+.\d+\%/'
   before_script:
     - *system_deps
     - *before_script
