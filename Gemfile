@@ -22,8 +22,6 @@ gem "minitest-hooks"
 gem "simplecov"
 gem "webmock"
 
-gem "pry"
-
 platform :mri do
   gem "rubocop"
   gem "rubocop-performance"
@@ -32,7 +30,6 @@ platform :mri do
 end
 
 platform :mri, :truffleruby do
-  gem "pry-byebug"
   if RUBY_VERSION >= "3.0.0"
     gem "sqlite3"
   elsif RUBY_VERSION >= "2.7.0"
