@@ -17,7 +17,7 @@ gem "tilt"
 
 # Tests/Debug
 gem "capybara"
-gem "minitest", "~> 5.0"
+gem "minitest"
 gem "minitest-hooks"
 gem "simplecov"
 gem "webmock"
