@@ -13,7 +13,7 @@ cache:
   - bundle install
 
 .system_deps: &system_deps
-  - apt-get update && apt-get install -y build-essential libsqlite3-dev
+  - apt-get update && apt-get install -y libsqlite3-dev
 
 variables:
   BUNDLE_JOBS: 10
@@ -28,7 +28,7 @@ jruby:
   variables:
     JRUBY_OPTS: --debug
   before_script:
-    - apt-get update && apt-get install -y
+    - apt-get update && apt-get install -y build-essential
     - *before_script
   image: "jruby:10"
   script:
