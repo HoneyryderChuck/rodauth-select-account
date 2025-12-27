@@ -5,6 +5,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "rake"
+gem "rdoc"
 
 gem "bcrypt"
 gem "rack_csrf"
