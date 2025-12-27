@@ -132,6 +132,17 @@ ruby34:
   image: "ruby:3.4"
   script:
     - bundle exec rake rubocop
+    - bundle exec rake test
+  artifacts:
+    paths:
+      - "coverage/"
+ruby40:
+  before_script:
+    - *system_deps
+    - *before_script
+  image: "ruby:4.0"
+  script:
+    - bundle exec rake rubocop
     - bundle exec rake check_method_doc
     - bundle exec rake test
   artifacts:
@@ -150,7 +161,7 @@ coverage:
     - ruby24
     - ruby27
     - ruby34
-  image: "ruby:3.4"
+  image: "ruby:4.0"
   script:
     - bundle exec rake coverage:report
   artifacts:
