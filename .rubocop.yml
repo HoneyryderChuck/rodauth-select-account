@@ -67,6 +67,9 @@ Style/StringLiterals:
 Style/SafeNavigation:
   Enabled: false
 
+Style/OneClassPerFile:
+  Enabled: false
+
 Style/FetchEnvVar:
   Enabled: false
 
