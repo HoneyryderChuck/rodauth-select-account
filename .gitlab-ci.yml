@@ -161,6 +161,7 @@ coverage:
     - ruby24
     - ruby27
     - ruby34
+    - ruby40
   image: "ruby:4.0"
   script:
     - bundle exec rake coverage:report
