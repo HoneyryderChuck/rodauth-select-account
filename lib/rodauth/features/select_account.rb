@@ -37,6 +37,13 @@ module Rodauth
     auth_value_method :add_account_required_error_status, 403
     translatable_method :no_account_message, "could not select account"
 
+    if respond_to?(:uses_instance_variables)
+      uses_instance_variables(
+        :@accounts_in_session,
+        :@valid_login_entered
+      )
+    end
+
     def accounts_in_session
       @accounts_in_session ||= _get_accounts_in_session
     end
@@ -244,7 +251,7 @@ module Rodauth
 
         catch_error do
           # this instruction will load the new account
-          unless account_from_login(param(login_param))
+          unless (@account = _account_from_login(param(login_param)))
             throw_error_status(no_matching_login_error_status, login_param, no_matching_login_message)
           end
 

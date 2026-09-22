@@ -101,6 +101,7 @@ class SelectAccountTest < Minitest::Test
       enable :i18n
       account_password_hash_column :ph
       title_instance_variable :@title
+      already_logged_in { redirect "/" }
       instance_exec(&rodauth_block)
     end
     app.route(&block)
