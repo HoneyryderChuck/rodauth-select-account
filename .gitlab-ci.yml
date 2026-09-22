@@ -9,6 +9,11 @@ cache:
   paths:
     - vendor
 
+.debian9_aptget_trusted: &debian9_aptget_trusted
+  - echo "deb [trusted=yes] http://archive.debian.org/debian stretch main non-free contrib" > /etc/apt/sources.list
+  - echo "deb-src [trusted=yes] http://archive.debian.org/debian stretch main non-free contrib" >> /etc/apt/sources.list
+  - echo "deb [trusted=yes] http://archive.debian.org/debian-security stretch/updates main non-free contrib" >> /etc/apt/sources.list
+
 .before_script: &before_script
   - bundle install
 
@@ -65,6 +70,7 @@ ruby25:
     - bundle exec rake test
 ruby26:
   before_script:
+    - *debian9_aptget_trusted
     - *system_deps
     - *before_script
   image: "ruby:2.6"
@@ -74,6 +80,7 @@ ruby26:
     - bundle exec rake test
 ruby27:
   before_script:
+    - *debian9_aptget_trusted
     - *system_deps
     - *before_script
   image: "ruby:2.7"
@@ -84,6 +91,7 @@ ruby27:
       - "coverage/"
 ruby30:
   before_script:
+    - *debian9_aptget_trusted
     - *system_deps
     - *before_script
   image: "ruby:3.0"
