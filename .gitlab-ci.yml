@@ -162,7 +162,7 @@ coverage:
   coverage: '/Coverage: \d+.\d+\%/'
   before_script:
     - *system_deps
-    - *before_script
+    - gem install simplecov --no-doc
   dependencies:
     - jruby
     - truffleruby
@@ -172,7 +172,7 @@ coverage:
     - ruby40
   image: "ruby:4.0"
   script:
-    - bundle exec rake coverage:report
+    - rake coverage:report
   artifacts:
     paths:
       - "coverage/"
