@@ -163,6 +163,7 @@ coverage:
   before_script:
     - *system_deps
     - gem install simplecov --no-doc
+    - find coverage -name "*resultset.json" -exec sed -i 's?/home?'`pwd`'?' {} \;
   dependencies:
     - jruby
     - truffleruby
