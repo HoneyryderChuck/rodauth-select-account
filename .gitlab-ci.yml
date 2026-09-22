@@ -159,7 +159,7 @@ ruby40:
 
 coverage:
   stage: prepare
-  coverage: '/Coverage: \d+.\d+\%/'
+  coverage: '/coverage: \d+ \/ \d+ \((\d+.\d+\%)/'
   before_script:
     - *system_deps
     - gem install simplecov --no-doc
